@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.s365.dbtemplate.DbTemplateAutoConfiguration
