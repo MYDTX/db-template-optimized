@@ -1,13 +1,13 @@
 package com.s365.dbtemplate;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ClassNameUtilsTest {
+class ClassNameUtilsTest {
 
     @Test
-    public void testCamelToUnderscore() {
+    void testCamelToUnderscore() {
         assertEquals("user_info", ClassNameUtils.camelToUnderscore("UserInfo"));
         assertEquals("user", ClassNameUtils.camelToUnderscore("User"));
         assertEquals("my_awesome_class", ClassNameUtils.camelToUnderscore("MyAwesomeClass"));
@@ -16,43 +16,38 @@ public class ClassNameUtilsTest {
     }
 
     @Test
-    public void testCamelToUnderscoreLowerFirst() {
+    void testCamelToUnderscoreLowerFirst() {
         assertEquals("user_info", ClassNameUtils.camelToUnderscore("userInfo"));
         assertEquals("my_class", ClassNameUtils.camelToUnderscore("myClass"));
     }
 
     @Test
-    public void testCamelToUnderscoreNullAndEmpty() {
+    void testCamelToUnderscoreNullAndEmpty() {
         assertNull(ClassNameUtils.camelToUnderscore(null));
         assertEquals("", ClassNameUtils.camelToUnderscore(""));
     }
 
     @Test
-    public void testUnderscoreToCamel() {
+    void testUnderscoreToCamel() {
         assertEquals("userInfo", ClassNameUtils.underscoreToCamel("user_info"));
         assertEquals("user", ClassNameUtils.underscoreToCamel("user"));
         assertEquals("myAwesomeClass", ClassNameUtils.underscoreToCamel("my_awesome_class"));
     }
 
     @Test
-    public void testUnderscoreToCamelNullAndEmpty() {
+    void testUnderscoreToCamelNullAndEmpty() {
         assertNull(ClassNameUtils.underscoreToCamel(null));
         assertEquals("", ClassNameUtils.underscoreToCamel(""));
     }
 
     @Test
-    public void testGetClassNameAsUnderscore() {
+    void testGetClassNameAsUnderscore() {
         assertEquals("class_name_utils", ClassNameUtils.getClassNameAsUnderscore(ClassNameUtils.class));
         assertEquals("string", ClassNameUtils.getClassNameAsUnderscore(String.class));
     }
 
     @Test
-    public void testGetSimpleClassName() {
-        // ClassNameUtils has private constructor, test via static methods
-    }
-
-    @Test
-    public void testGetFullClassName() {
+    void testGetFullClassName() {
         String fullName = ClassNameUtils.getFullClassName("test");
         assertEquals("java.lang.String", fullName);
     }
