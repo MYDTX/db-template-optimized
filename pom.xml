@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.mydtx</groupId>
-    <artifactId>db-template-optimized</artifactId>
+    <artifactId>db-template-spring-boot-starter</artifactId>
     <version>2.0.0</version>
     <packaging>jar</packaging>
 
-    <name>DB Template Optimized</name>
-    <description>An optimized lightweight database template library based on Spring JDBC</description>
+    <name>DB Template Spring Boot Starter (Boot 2.x)</name>
+    <description>A lightweight chain-query database template Spring Boot Starter based on Spring JDBC</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
