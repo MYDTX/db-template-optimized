@@ -56,6 +56,11 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
+    public SingleTableTemplate<T> setSoftDeleteValue(Object softDeleteValue) {
+        queryTemplate.setSoftDeleteValue(softDeleteValue);
+        return this;
+    }
+
     // WHERE 方法
     public <V> SingleTableTemplate<T> where(String key, V value) {
         queryTemplate.where(key, value);

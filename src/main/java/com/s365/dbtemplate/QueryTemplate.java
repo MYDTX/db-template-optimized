@@ -33,9 +33,10 @@ public class QueryTemplate<T> extends BaseDbTemplate {
     private String updateTimeField = "updated_at";
     private String insertTimeField = "created_at";
     private Boolean softDelete = true;
+    private Object softDeleteValue = 0;
     private String lockShare = " FOR SHARE ";
     private String lockUpdate = " FOR UPDATE ";
-    private String lock = "";
+    private String lock = null;
 
     public QueryTemplate(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
@@ -81,6 +82,11 @@ public class QueryTemplate<T> extends BaseDbTemplate {
 
     public QueryTemplate<T> unUseSoftDelete() {
         this.softDelete = false;
+        return this;
+    }
+
+    public QueryTemplate<T> setSoftDeleteValue(Object softDeleteValue) {
+        this.softDeleteValue = softDeleteValue;
         return this;
     }
 
@@ -337,7 +343,7 @@ public class QueryTemplate<T> extends BaseDbTemplate {
 
     // ==================== SQL 构建 ====================
 
-    private String buildWhereString() {
+    String buildWhereString() {
         StringBuilder whereSql = new StringBuilder();
         for (WhereCondition condition : whereConditions) {
             if (whereSql.length() == 0) {
@@ -397,7 +403,7 @@ public class QueryTemplate<T> extends BaseDbTemplate {
         }
         // 软删除参数
         if (softDelete && !hasDeletedAtCondition()) {
-            values.add(0);
+            values.add(softDeleteValue);
         }
         return values;
     }
@@ -411,7 +417,7 @@ public class QueryTemplate<T> extends BaseDbTemplate {
         return false;
     }
 
-    private String buildSelectSql() {
+    String buildSelectSql() {
         if (selectString == null || selectString.isEmpty()) {
             selectString = tableName + ".*";
         }
@@ -536,10 +542,15 @@ public class QueryTemplate<T> extends BaseDbTemplate {
     // ==================== 聚合函数 ====================
 
     public Long count(String field) {
-        String selectExpr = (field == null || field.isEmpty()) ? "COUNT(*)" : "COUNT(" + validateIdentifier(field) + ")";
-        select(selectExpr);
-        Number result = jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Number.class);
-        return result != null ? result.longValue() : 0L;
+        String originalSelect = this.selectString;
+        try {
+            String selectExpr = (field == null || field.isEmpty()) ? "COUNT(*)" : "COUNT(" + validateIdentifier(field) + ")";
+            this.selectString = selectExpr;
+            Number result = jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Number.class);
+            return result != null ? result.longValue() : 0L;
+        } finally {
+            this.selectString = originalSelect;
+        }
     }
 
     public Long count() {
@@ -555,8 +566,14 @@ public class QueryTemplate<T> extends BaseDbTemplate {
         if (field == null || field.isEmpty()) {
             throw new IllegalArgumentException("Field name cannot be null or empty for max operation.");
         }
-        select("MAX(" + validateIdentifier(field) + ")");
-        return (T) jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Double.class);
+        String originalSelect = this.selectString;
+        try {
+            this.selectString = "MAX(" + validateIdentifier(field) + ")";
+            Number result = jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Number.class);
+            return result != null ? (T) result : null;
+        } finally {
+            this.selectString = originalSelect;
+        }
     }
 
     public <K, T extends Number> T max(StringFunction<K> field) {
@@ -568,8 +585,14 @@ public class QueryTemplate<T> extends BaseDbTemplate {
         if (field == null || field.isEmpty()) {
             throw new IllegalArgumentException("Field name cannot be null or empty for min operation.");
         }
-        select("MIN(" + validateIdentifier(field) + ")");
-        return (T) jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Double.class);
+        String originalSelect = this.selectString;
+        try {
+            this.selectString = "MIN(" + validateIdentifier(field) + ")";
+            Number result = jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Number.class);
+            return result != null ? (T) result : null;
+        } finally {
+            this.selectString = originalSelect;
+        }
     }
 
     public <K, T extends Number> T min(StringFunction<K> field) {
@@ -581,8 +604,14 @@ public class QueryTemplate<T> extends BaseDbTemplate {
         if (field == null || field.isEmpty()) {
             throw new IllegalArgumentException("Field name cannot be null or empty for avg operation.");
         }
-        select("AVG(" + validateIdentifier(field) + ")");
-        return (T) jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Double.class);
+        String originalSelect = this.selectString;
+        try {
+            this.selectString = "AVG(" + validateIdentifier(field) + ")";
+            Number result = jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Number.class);
+            return result != null ? (T) result : null;
+        } finally {
+            this.selectString = originalSelect;
+        }
     }
 
     public <K, T extends Number> T avg(StringFunction<K> field) {
@@ -594,8 +623,14 @@ public class QueryTemplate<T> extends BaseDbTemplate {
         if (field == null || field.isEmpty()) {
             throw new IllegalArgumentException("Field name cannot be null or empty for sum operation.");
         }
-        select("SUM(" + validateIdentifier(field) + ")");
-        return (T) jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Double.class);
+        String originalSelect = this.selectString;
+        try {
+            this.selectString = "SUM(" + validateIdentifier(field) + ")";
+            Number result = jdbcTemplate.queryForObject(buildSelectSql(), buildWhereValues().toArray(), Number.class);
+            return result != null ? (T) result : null;
+        } finally {
+            this.selectString = originalSelect;
+        }
     }
 
     public <K, T extends Number> T sum(StringFunction<K> field) {
