@@ -2,7 +2,7 @@
 
 ## 一、项目介绍
 
-`db-template-optimized`（`io.github.mydtx:db-template-optimized:2.0.0`）是一个基于 Spring JDBC 的轻量级链式查询库，提供类似 MyBatis-Plus / ThinkPHP 的流畅 API，零运行时开销。
+`db-template-spring-boot-starter`（`io.github.mydtx:db-template-spring-boot-starter:3.0.0`）是一个基于 Spring JDBC 的轻量级链式查询库，提供类似 MyBatis-Plus / ThinkPHP 的流畅 API，零运行时开销。
 
 核心改进（相对旧版 `db-template`）：
 
@@ -21,15 +21,14 @@
 ```xml
 <dependency>
     <groupId>io.github.mydtx</groupId>
-    <artifactId>db-template-optimized</artifactId>
-    <version>2.0.0</version>
+    <artifactId>db-template-spring-boot-starter</artifactId>
+    <version>3.0.0</version>
 </dependency>
-```
 
 或本地安装后引用：
 
 ```bash
-cd db-template-optimized
+cd db-template-spring-boot-starter
 mvn clean install -DskipTests
 ```
 
