@@ -694,22 +694,7 @@ public class UserService extends BaseModel<User> {
 
 ---
 
-## 十六、与旧版本的差异对比
 
-| 功能 | 旧版本 | 优化版本 |
-|------|--------|----------|
-| 入口 | `Db.table(User.class)` 返回内部类 | `Db.table(User.class)` 返回 `QueryTemplate<T>` |
-| 线程安全 | 实例状态可能被多线程篡改 | 每次查询新实例，天然线程安全 |
-| 分页 | `page()` 修改 `selectString` 有副作用 | `page()` 内部独立构建 count SQL，无副作用 |
-| 聚合函数 | `count()`/`max()` 修改 `selectString` | save/restore 模式，不影响后续查询 |
-| SQL 注入 | `validateIdentifier` 为空实现 | 正则校验标识符 |
-| Lambda 缓存 | 以 lambda 实例为 key，缓存失效 | 以 `SerializedLambda` 签名为 key |
-| 软删除值 | 硬编码 `deleted_at = 0` | 可通过 `setSoftDeleteValue()` 自定义 |
-| 类型安全 | 聚合返回 `(T) Double.class`，空结果抛异常 | 使用 `Number.class`，空结果返回 null |
-| Spring 注入 | `@Autowired` 字段注入 | 构造器注入 |
-| 单元测试 | 无 | 49 个测试用例覆盖全部核心功能 |
-
----
 
 ## 类结构总览
 
