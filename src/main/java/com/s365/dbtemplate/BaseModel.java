@@ -39,13 +39,13 @@ public class BaseModel<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public SingleTableTemplate<T> getTable() {
+    protected SingleTableTemplate<T> getTable() {
         Class<T> clazz = getTClass();
         return Db.singleTable(clazz);
     }
 
     @SuppressWarnings("unchecked")
-    public SingleTableTemplate<T> getTable(Boolean useSoftDelete) {
+    protected SingleTableTemplate<T> getTable(Boolean useSoftDelete) {
         Class<T> clazz = getTClass();
         return Db.singleTable(clazz, !useSoftDelete);
     }

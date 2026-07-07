@@ -67,12 +67,12 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> where(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> where(StringFunction<T> field, V value) {
         queryTemplate.where(field, value);
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereNe(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereNe(StringFunction<T> field, V value) {
         queryTemplate.whereNe(field, value);
         return this;
     }
@@ -82,7 +82,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereLt(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereLt(StringFunction<T> field, V value) {
         queryTemplate.whereLt(field, value);
         return this;
     }
@@ -92,7 +92,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereLe(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereLe(StringFunction<T> field, V value) {
         queryTemplate.whereLe(field, value);
         return this;
     }
@@ -102,7 +102,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereGt(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereGt(StringFunction<T> field, V value) {
         queryTemplate.whereGt(field, value);
         return this;
     }
@@ -112,7 +112,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereGe(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereGe(StringFunction<T> field, V value) {
         queryTemplate.whereGe(field, value);
         return this;
     }
@@ -122,7 +122,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereLike(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereLike(StringFunction<T> field, V value) {
         queryTemplate.whereLike(field, value);
         return this;
     }
@@ -132,7 +132,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <V> SingleTableTemplate<T> whereIsNull(StringFunction<V> field) {
+    public <V> SingleTableTemplate<T> whereIsNull(StringFunction<T> field) {
         queryTemplate.whereIsNull(field);
         return this;
     }
@@ -147,12 +147,12 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <V> SingleTableTemplate<T> whereNotNull(StringFunction<V> field) {
+    public <V> SingleTableTemplate<T> whereNotNull(StringFunction<T> field) {
         queryTemplate.whereNotNull(field);
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereFindInSet(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereFindInSet(StringFunction<T> field, V value) {
         queryTemplate.whereFindInSet(field, value);
         return this;
     }
@@ -162,7 +162,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereIn(StringFunction<K> field, List<V> values) {
+    public <K, V> SingleTableTemplate<T> whereIn(StringFunction<T> field, List<V> values) {
         queryTemplate.whereIn(field, values);
         return this;
     }
@@ -172,7 +172,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereNotIn(StringFunction<K> field, List<V> values) {
+    public <K, V> SingleTableTemplate<T> whereNotIn(StringFunction<T> field, List<V> values) {
         queryTemplate.whereNotIn(field, values);
         return this;
     }
@@ -182,7 +182,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereOr(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereOr(StringFunction<T> field, V value) {
         queryTemplate.whereOr(field, value);
         return this;
     }
@@ -192,7 +192,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereOrNe(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereOrNe(StringFunction<T> field, V value) {
         queryTemplate.whereOrNe(field, value);
         return this;
     }
@@ -202,7 +202,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K, V> SingleTableTemplate<T> whereOrLike(StringFunction<K> field, V value) {
+    public <K, V> SingleTableTemplate<T> whereOrLike(StringFunction<T> field, V value) {
         queryTemplate.whereOrLike(field, value);
         return this;
     }
@@ -218,15 +218,12 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K> SingleTableTemplate<T> select(StringFunction<K>... key) {
+    public <K> SingleTableTemplate<T> select(StringFunction<T> key) {
         queryTemplate.select(key);
         return this;
     }
 
-    public <R, L, F> SingleTableTemplate<T> leftJoin(Class<R> TABLE_NAME, StringFunction<L> localField, StringFunction<F> foreignField) {
-        queryTemplate.leftJoin(TABLE_NAME, localField, foreignField);
-        return this;
-    }
+
 
     public SingleTableTemplate<T> leftJoin(String TABLE_NAME, String localField, String foreignField) {
         queryTemplate.leftJoin(TABLE_NAME, localField, foreignField);
@@ -238,10 +235,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <R, L, F> SingleTableTemplate<T> rightJoin(Class<R> TABLE_NAME, StringFunction<L> localField, StringFunction<F> foreignField) {
-        queryTemplate.rightJoin(TABLE_NAME, localField, foreignField);
-        return this;
-    }
+
 
     public SingleTableTemplate<T> innerJoin(String TABLE_NAME, String localField, String foreignField) {
         queryTemplate.innerJoin(TABLE_NAME, localField, foreignField);
@@ -253,7 +247,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K> SingleTableTemplate<T> orderByDesc(StringFunction<K> field) {
+    public <K> SingleTableTemplate<T> orderByDesc(StringFunction<T> field) {
         queryTemplate.orderByDesc(field);
         return this;
     }
@@ -263,7 +257,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K> SingleTableTemplate<T> orderByAsc(StringFunction<K> field) {
+    public <K> SingleTableTemplate<T> orderByAsc(StringFunction<T> field) {
         queryTemplate.orderByAsc(field);
         return this;
     }
@@ -273,7 +267,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return this;
     }
 
-    public <K> SingleTableTemplate<T> groupBy(StringFunction<K> field) {
+    public <K> SingleTableTemplate<T> groupBy(StringFunction<T> field) {
         queryTemplate.groupBy(field);
         return this;
     }
@@ -335,7 +329,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return queryTemplate.count();
     }
 
-    public <K> Long count(StringFunction<K> field) {
+    public <K> Long count(StringFunction<T> field) {
         return queryTemplate.count(field);
     }
 
@@ -343,7 +337,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return queryTemplate.max(field);
     }
 
-    public <K, R extends Number> R max(StringFunction<K> field) {
+    public <K, R extends Number> R max(StringFunction<T> field) {
         return queryTemplate.max(field);
     }
 
@@ -351,7 +345,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return queryTemplate.min(field);
     }
 
-    public <K, R extends Number> R min(StringFunction<K> field) {
+    public <K, R extends Number> R min(StringFunction<T> field) {
         return queryTemplate.min(field);
     }
 
@@ -359,7 +353,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return queryTemplate.avg(field);
     }
 
-    public <K, R extends Number> R avg(StringFunction<K> field) {
+    public <K, R extends Number> R avg(StringFunction<T> field) {
         return queryTemplate.avg(field);
     }
 
@@ -367,7 +361,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return queryTemplate.sum(field);
     }
 
-    public <K, R extends Number> R sum(StringFunction<K> field) {
+    public <K, R extends Number> R sum(StringFunction<T> field) {
         return queryTemplate.sum(field);
     }
 
@@ -396,7 +390,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return queryTemplate.update(values);
     }
 
-    public <K> int increment(StringFunction<K> key) {
+    public <K> int increment(StringFunction<T> key) {
         return queryTemplate.increment(key);
     }
 
@@ -404,7 +398,7 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return queryTemplate.increment(fieldName);
     }
 
-    public <K> int decrement(StringFunction<K> key) {
+    public <K> int decrement(StringFunction<T> key) {
         return queryTemplate.decrement(key);
     }
 
