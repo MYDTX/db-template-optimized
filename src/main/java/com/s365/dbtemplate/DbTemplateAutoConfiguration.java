@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * 兼容性：
  * - Spring Boot 2.x（javax.annotation 环境）
  * - Spring Boot 3.x（jakarta.annotation 环境）
+ * - Spring Boot 4.x（jakarta.annotation 环境，Spring Framework 7）
  * - 纯 Spring 项目（手动调用 Db.init()）
  *
  * 使用 InitializingBean 而非 @PostConstruct，避免依赖 javax/jakarta.annotation-api
