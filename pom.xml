@@ -6,7 +6,7 @@
 
     <groupId>io.github.mydtx</groupId>
     <artifactId>db-template-spring-boot-starter</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <packaging>jar</packaging>
 
     <name>DB Template Spring Boot Starter (Boot 3.x)</name>
