@@ -380,6 +380,14 @@ public class SingleTableTemplate<T> extends BaseDbTemplate {
         return queryTemplate.insert(values);
     }
 
+    public int insertBatch(List<?> list) {
+        return queryTemplate.insertBatch(list);
+    }
+
+    public int insertBatchMaps(List<java.util.HashMap<String, Object>> list) {
+        return queryTemplate.insertBatchMaps(list);
+    }
+
     public int add(Object obj) {
         return queryTemplate.add(obj);
     }

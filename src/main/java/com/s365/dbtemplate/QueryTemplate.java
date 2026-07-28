@@ -652,6 +652,89 @@ public class QueryTemplate<T> extends BaseDbTemplate {
         return add(values);
     }
 
+    /**
+     * 批量插入实体类列表
+     * @param list 实体对象列表
+     * @return 插入的总行数
+     */
+    public int insertBatch(List<?> list) {
+        if (list == null || list.isEmpty()) return 0;
+        if (list.get(0) instanceof HashMap) {
+            return insertBatchMaps((List<HashMap<String, Object>>) (List<?>) list);
+        }
+        HashMap<String, Object> firstMap = getObjectHashMap(list.get(0), autoIncrement);
+        if (firstMap.isEmpty()) return 0;
+
+        StringJoiner fields = new StringJoiner(",");
+        StringJoiner placeholders = new StringJoiner(",");
+        List<String> keys = new ArrayList<>(firstMap.keySet());
+        for (String key : keys) {
+            fields.add(validateIdentifier(key));
+            placeholders.add("?");
+        }
+        String sql = buildInsertSql(fields.toString(), placeholders.toString());
+
+        List<Object[]> batchArgs = new ArrayList<>(list.size());
+        long timestamp = getTimestamp();
+        for (Object obj : list) {
+            HashMap<String, Object> map = getObjectHashMap(obj, autoIncrement);
+            if (autoFill) {
+                map.put("`" + insertTimeField + "`", timestamp);
+                map.put("`" + updateTimeField + "`", timestamp);
+            }
+            Object[] params = new Object[keys.size()];
+            for (int i = 0; i < keys.size(); i++) {
+                params[i] = map.get(keys.get(i));
+            }
+            batchArgs.add(params);
+        }
+
+        int[] results = jdbcTemplate.batchUpdate(sql, batchArgs);
+        return Arrays.stream(results).sum();
+    }
+
+    /**
+     * 批量插入 HashMap 列表
+     * @param list HashMap 列表，每个 HashMap 的 key 必须一致
+     * @return 插入的总行数
+     */
+    public int insertBatchMaps(List<HashMap<String, Object>> list) {
+        if (list == null || list.isEmpty()) return 0;
+        HashMap<String, Object> firstMap = list.get(0);
+        if (firstMap.isEmpty()) return 0;
+
+        long timestamp = getTimestamp();
+        if (autoFill) {
+            firstMap.putIfAbsent(insertTimeField, timestamp);
+            firstMap.putIfAbsent(updateTimeField, timestamp);
+        }
+
+        StringJoiner fields = new StringJoiner(",");
+        StringJoiner placeholders = new StringJoiner(",");
+        List<String> keys = new ArrayList<>(firstMap.keySet());
+        for (String key : keys) {
+            fields.add("`" + validateIdentifier(key) + "`");
+            placeholders.add("?");
+        }
+        String sql = buildInsertSql(fields.toString(), placeholders.toString());
+
+        List<Object[]> batchArgs = new ArrayList<>(list.size());
+        for (HashMap<String, Object> map : list) {
+            if (autoFill) {
+                map.putIfAbsent(insertTimeField, timestamp);
+                map.putIfAbsent(updateTimeField, timestamp);
+            }
+            Object[] params = new Object[keys.size()];
+            for (int i = 0; i < keys.size(); i++) {
+                params[i] = map.get(keys.get(i));
+            }
+            batchArgs.add(params);
+        }
+
+        int[] results = jdbcTemplate.batchUpdate(sql, batchArgs);
+        return Arrays.stream(results).sum();
+    }
+
     public int add(HashMap<String, Object> values) {
         if (autoFill) {
             values.put("`" + insertTimeField + "`", getTimestamp());
